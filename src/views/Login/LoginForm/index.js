@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 import { bindActionCreators } from 'redux'
@@ -11,8 +11,10 @@ class LoginForm extends Component {
   render() {
     const { login, form: { getFieldDecorator } } = this.props
 
+    let content = <Redirect to="/" />
+
     if (!login) {
-      return (
+      content = (
         <Form onSubmit={this.submitFormHandler} className="login-form__formfield">
           <Form.Item>
             {
@@ -55,9 +57,9 @@ class LoginForm extends Component {
           </Form.Item>
         </Form>
       )
-    } else {
-      return <Redirect to="/" />
     }
+
+    return <Fragment>{content}</Fragment>
   }
 
   submitFormHandler = e => {
