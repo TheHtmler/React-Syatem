@@ -9,51 +9,56 @@ import './index.less'
 
 class LoginForm extends Component {
   render() {
-    const { login, loading, form: { getFieldDecorator } } = this.props
-    return (
-      <Form onSubmit={this.submitFormHandler} className="login-form__formfield">
+    const { token, loading, form: { getFieldDecorator } } = this.props
+    let content = <Redirect to="/" />
 
-      <Form.Item>
-        {
-          getFieldDecorator('username', {
-            rules: [{ required: true, message: 'Please input your username!' }]
-          })(
-            <Input
-              prefix={<Icon type="user" style={{ color: 'rgba(0, 0, 0, .25)' }} />}
-              placeholder="Username"
-            />
-          )
-        }
-      </Form.Item>
-      <Form.Item>
-        {
-          getFieldDecorator('password', {
-            rules: [{ required: true, message: 'Please input your password!' }]
-          })(
-            <Input
-              prefix={<Icon type="lock" style={{ color: 'rgba(0, 0, 0, .25)' }} />}
-              type="password"
-              placeholder="Password"
-            />
-          )
-        }
-      </Form.Item>
-      <Form.Item>
-        {
-          getFieldDecorator('remember', {
-            valuePropName: 'checked',
-            initialValue: true
-          })(
-            <Checkbox className="login-form__remember">Remember me</Checkbox>
-          )
-        }
-        <a href="/login" className="login-form__forgot">Forgot password</a>
-        <Button type="primary" loading={loading} htmlType="submit" className="login-form__button">
-          Login
-        </Button>
-      </Form.Item>
-    </Form>
-    )  
+    if(!token) {
+      content = (
+        <Form onSubmit={this.submitFormHandler} className="login-form__formfield">
+          <Form.Item>
+            {
+              getFieldDecorator('username', {
+                rules: [{ required: true, message: 'Please input your username!' }]
+              })(
+                <Input
+                  prefix={<Icon type="user" style={{ color: 'rgba(0, 0, 0, .25)' }} />}
+                  placeholder="Username"
+                />
+              )
+            }
+          </Form.Item>
+          <Form.Item>
+            {
+              getFieldDecorator('password', {
+                rules: [{ required: true, message: 'Please input your password!' }]
+              })(
+                <Input
+                  prefix={<Icon type="lock" style={{ color: 'rgba(0, 0, 0, .25)' }} />}
+                  type="password"
+                  placeholder="Password"
+                />
+              )
+            }
+          </Form.Item>
+          <Form.Item>
+            {
+              getFieldDecorator('remember', {
+                valuePropName: 'checked',
+                initialValue: true
+              })(
+                <Checkbox className="login-form__remember">Remember me</Checkbox>
+              )
+            }
+            <a href="/login" className="login-form__forgot">Forgot password</a>
+            <Button type="primary" loading={loading} htmlType="submit" className="login-form__button">
+              Login
+            </Button>
+          </Form.Item>
+        </Form>
+      )
+    }
+
+    return <Fragment>{content}</Fragment>
   }
 
   submitFormHandler = e => {
@@ -71,7 +76,7 @@ class LoginForm extends Component {
 }
 
 const mapState = (state) => ({
-  login: state.getIn(['login', 'login']),
+  token: state.getIn(['login', 'token']),
   loading: state.getIn(['login', 'loading']),
   notificationType: state.getIn(['login', 'notificationType'])
 })
