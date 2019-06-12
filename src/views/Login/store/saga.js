@@ -3,9 +3,11 @@ import * as constants from './constants'
 import * as loginApi from '../../../api/Login'
 import Storage from '../../../utils/Storage'
 
-import { notification } from 'antd'
+import { message } from 'antd'
 
 function* loginSaga(action) {
+  message.destroy() // destroy the previous message
+
   try {
     let { data } = yield call(loginApi.login, action.loginParams)
     console.log(data)
@@ -18,10 +20,8 @@ function* loginSaga(action) {
       userInfo: data
     })
 
-    notification['success']({
-      message: 'Login successfully!', // 登陆成功！
-      duration: 3
-    })
+    message.success('Login successfully!') // Login message: success
+
   } catch(error) {
     console.log(error)
     console.log('Login failed!')
@@ -30,10 +30,7 @@ function* loginSaga(action) {
       error
     })
 
-    notification['error']({
-      message: 'Login failed! Incorrect username or password!', // 登录失败！用户名或密码不正确！
-      duration: 3
-    })
+    message.error('Login failed! Incorrect username or password!') // Login message: failed
   }
 }
 
