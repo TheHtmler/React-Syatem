@@ -1,4 +1,5 @@
 .sider-wrapper {
+  background: #2e393e;
   
   div {
     display: flex;
@@ -9,12 +10,30 @@
       height: 64px;
       line-height: 64px;
       color: #fff;
-      font-size: 20px;
+      font-size: 2em;
       text-align: center;
     }
 
     .sider-menu {
       flex: 1;
+      background: #2e393e;
+
+      .ant-menu-submenu {
+
+        .ant-menu-sub {
+          background: #2e393e;
+          box-shadow: none;
+        }
+        
+        .ant-menu-item {
+          padding-left: 60px!important;
+          font-size: 13px;
+
+          &.ant-menu-item-selected {
+            background: #217d9e;
+          }
+        }
+      }
     }
   }
 }

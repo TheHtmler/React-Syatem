@@ -11,12 +11,11 @@ const { Header, Content } = Layout
 
 class MainWrapper extends Component {
   render() {
-    const { collapsed, userInfo, toggleMenuHandler } = this.props
-    console.log(userInfo)
+    const { collapsed, userInfo } = this.props
 
     const dropdownMenu = (
       <Menu>
-        <Menu.Item>设置</Menu.Item>
+        <Menu.Item>系统设置</Menu.Item>
         <Menu.Item>个人资料</Menu.Item>
         <Menu.Item onClick={this.logoutHandler}>退出</Menu.Item>
       </Menu>
@@ -29,7 +28,7 @@ class MainWrapper extends Component {
             <Icon
               className="trigger"
               type={collapsed ? 'menu-unfold' : 'menu-fold'}
-              onClick={toggleMenuHandler}
+              onClick={this.toggleMenuHandler}
             />
           </div>
           <div className="main-header__right">
@@ -48,6 +47,10 @@ class MainWrapper extends Component {
         </Content>
       </Fragment>
     )
+  }
+
+  toggleMenuHandler = () => {
+    this.props.toggleMenu()
   }
 
   logoutHandler = () => {

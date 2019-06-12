@@ -5,6 +5,7 @@ import { Layout, Menu, Icon } from 'antd'
 import './index.less'
 
 const { Sider } = Layout
+const { SubMenu } = Menu
 
 class SiderWrapper extends Component {
   render() {
@@ -12,20 +13,51 @@ class SiderWrapper extends Component {
 
     return (
       <Sider className="sider-wrapper" trigger={null} collapsible collapsed={collapsed}>
-        <h1 className="sider-logo">LOGO</h1>
-        <Menu className="sider-menu" theme="dark" mode="inline" defaultSelectedKeys={['1']}>
-          <Menu.Item key="1">
-            <Icon type="user" />
-            <span>Nav 1</span>
-          </Menu.Item>
-          <Menu.Item key="2">
-            <Icon type="video-camera" />
-            <span>Nav 2</span>
-          </Menu.Item>
-          <Menu.Item key="3">
-            <Icon type="upload" />
-            <span>Nav 3</span>
-          </Menu.Item>
+        <h1 className="sider-logo">AQI</h1>
+        <Menu 
+          className="sider-menu"
+          theme="dark" mode="inline" 
+          defaultSelectedKeys={['RealTimeData']}
+          defaultOpenKeys={['menu-1']}
+        >
+          <SubMenu
+            key="menu-1"
+            title={
+              <span>
+                <Icon type="user" />
+                <span>实时显示</span>
+              </span>
+            }
+          >
+            <Menu.Item key="RealTimeData">
+              <span>实时数据</span>
+            </Menu.Item>
+            <Menu.Item key="FloorMonitor">
+              <span>楼层监控</span>
+            </Menu.Item>
+            <Menu.Item key="RealTimeCurve">
+              <span>实时曲线</span>
+            </Menu.Item>
+            <Menu.Item key="AirQuality">
+              <span>空气质量</span>
+            </Menu.Item>
+          </SubMenu>
+          <SubMenu
+            key="menu-2"
+            title={
+              <span>
+                <Icon type="video-camera" />
+                <span>项目管理</span>
+              </span>
+            }
+          >
+            <Menu.Item key="ProjectList">
+              <span>项目列表</span>
+            </Menu.Item>
+            <Menu.Item key="ProjectLocation">
+              <span>项目分布</span>
+            </Menu.Item>
+          </SubMenu>
         </Menu>
       </Sider>
     )
