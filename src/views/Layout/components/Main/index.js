@@ -1,8 +1,9 @@
 import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { bindActionCreators } from 'redux'
 
-import { actionCreators } from '../../store'
+import { toggleMenu } from '../../store/actionCreators'
+import { logoutAction } from '../../../Login/store/actionCreators'
 import { Layout, Menu, Icon, Dropdown } from 'antd'
 import './index.less'
 
@@ -10,15 +11,14 @@ const { Header, Content } = Layout
 
 class MainWrapper extends Component {
   render() {
-    const { collapsed, toggleMenuHandler } = this.props
+    const { collapsed, userInfo, toggleMenuHandler } = this.props
+    console.log(userInfo)
 
     const dropdownMenu = (
       <Menu>
         <Menu.Item>设置</Menu.Item>
         <Menu.Item>个人资料</Menu.Item>
-        <Menu.Item>
-          <Link to="/login">退出</Link>
-        </Menu.Item>
+        <Menu.Item onClick={this.logoutHandler}>退出</Menu.Item>
       </Menu>
     )
 
@@ -36,7 +36,10 @@ class MainWrapper extends Component {
             <Icon type="message" className="main-header__icon" />
             &nbsp;&nbsp;&nbsp;
             <Dropdown overlay={dropdownMenu} placement="bottomRight" trigger={['click']}>
-              <Icon type="user" className="main-header__icon" />
+              <div className="main-header__userinfo">
+                <Icon type="user" className="main-header__icon" />&nbsp;
+                {userInfo.name}
+              </div>
             </Dropdown>
           </div>
         </Header>
@@ -46,16 +49,28 @@ class MainWrapper extends Component {
       </Fragment>
     )
   }
+
+  logoutHandler = () => {
+    this.props.logoutAction()
+  }
 }
 
 const mapState = (state) => ({
-  collapsed: state.getIn(['layout', 'collapsed'])
+  collapsed: state.getIn(['layout', 'collapsed']),
+  userInfo: state.getIn(['login', 'userInfo'])
 })
 
-const mapDispatch = (dispatch) => ({
-  toggleMenuHandler() {
-    dispatch(actionCreators.toggleMenu())
-  }
-})
+const mapDispatch = dispatch => {
+  return bindActionCreators({
+    toggleMenu,
+    logoutAction
+  }, dispatch)
+}
+
+// const mapDispatch = (dispatch) => ({
+//   toggleMenuHandler() {
+//     dispatch(actionCreators.toggleMenu())
+//   }
+// })
 
 export default connect(mapState, mapDispatch)(MainWrapper)
